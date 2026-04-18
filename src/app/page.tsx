@@ -298,18 +298,6 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      {/* Logos / Social Proof */}
-      <section className="py-12 border-y border-zinc-800/50">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <p className="text-sm text-zinc-500 mb-6">Trusted by AI teams at</p>
-          <div className="flex items-center justify-center gap-12 opacity-40">
-            {["Acme Corp", "TechFlow", "NeuralSoft", "DataBridge", "CloudStack"].map((name) => (
-              <span key={name} className="text-lg font-semibold text-zinc-400">{name}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Features */}
       <section id="features" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
