@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PromptSure — AI Reliability Platform
 
-## Getting Started
+**Test and de-risk AI features before shipping.**
 
-First, run the development server:
+PromptSure simulates real-world scenarios, evaluates AI outputs with LLM-as-judge, and surfaces risks before they reach production.
+
+## Quick Start
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set up environment variables
+
+Copy the example file and fill in your keys:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Required variables:
+
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key |
+| `OPENAI_API_KEY` | OpenAI API key |
+| `NEXT_PUBLIC_POSTHOG_KEY` | PostHog project key (optional) |
+
+### 3. Set up the database
+
+Run the SQL schema in your Supabase SQL Editor:
+
+```bash
+# File: supabase-schema.sql
+```
+
+This creates all tables (users, projects, scenarios, simulations, evaluations, jobs) with RLS policies and indexes.
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/                    # Next.js App Router pages & API routes
+│   ├── (dashboard)/        # Protected dashboard layout
+│   ├── auth/               # Login, signup, onboarding
+│   ├── api/                # REST API routes
+│   ├── demo/               # Public demo (no login required)
+│   └── pricing/            # Pricing page
+├── components/
+│   ├── ui/                 # shadcn/ui-style primitives
+│   ├── layout/             # Sidebar, header
+│   ├── dashboard/          # Project cards, stats
+│   ├── scenarios/          # Scenario generator & list
+│   ├── simulations/        # Simulation runner & logs
+│   ├── results/            # Score charts, insights
+│   └── shared/             # Loading spinners, empty states
+├── lib/
+│   ├── supabase/           # Client & server Supabase clients
+│   ├── openai.ts           # OpenAI integration
+│   ├── posthog.ts          # Analytics
+│   └── utils.ts            # Utility functions
+├── types/                  # TypeScript types
+└── store/                  # Zustand state management
+```
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- **AI Scenario Generation** — Generate 50+ diverse test scenarios from a feature description
+- **Async Simulation Engine** — Run simulations with real-time progress tracking
+- **LLM-as-Judge Evaluation** — AI evaluates helpfulness, tone, accuracy, safety, hallucination
+- **Analytics Dashboard** — Score breakdowns, trends, failure categories, risk insights
+- **Demo Mode** — Full platform experience without login
+- **Dark Mode UI** — Glassmorphism design with Framer Motion animations
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Frontend**: Next.js 16, Tailwind CSS v4, Framer Motion
+- **UI**: shadcn/ui components, Recharts
+- **Backend**: Next.js API Routes
+- **Database**: Supabase (PostgreSQL + Auth + RLS)
+- **AI**: OpenAI GPT-4o-mini
+- **State**: Zustand
+- **Analytics**: PostHog
+- **Deployment**: Vercel
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Deploy to Vercel:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+vercel
+```
+
+Set all environment variables in Vercel's dashboard.
+
+## License
+
+MIT
