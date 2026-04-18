@@ -165,50 +165,131 @@ export default function LandingPage() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="mt-16 relative"
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 pointer-events-none" />
-            <div className="rounded-2xl border border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm p-2 shadow-2xl shadow-violet-500/5">
+            <div className="absolute -inset-20 bg-violet-600/5 rounded-full blur-[100px] pointer-events-none" />
+            <div className="relative rounded-2xl border border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm p-2 shadow-2xl shadow-violet-500/10">
               <div className="rounded-xl bg-zinc-950 border border-zinc-800/50 overflow-hidden">
+                {/* Browser chrome */}
                 <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800/50">
                   <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                    <div className="w-3 h-3 rounded-full bg-red-500/70" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/70" />
                   </div>
-                  <span className="text-xs text-zinc-600 ml-2">app.promptsure.ai/dashboard</span>
+                  <div className="ml-3 flex-1 max-w-md mx-auto flex items-center justify-center gap-1.5 bg-zinc-900/80 rounded-md px-3 py-1 border border-zinc-800/50">
+                    <Shield className="h-3 w-3 text-violet-400" />
+                    <span className="text-xs text-zinc-400">app.promptsure.ai/dashboard</span>
+                  </div>
                 </div>
-                <div className="p-6 space-y-4">
+
+                {/* Dashboard content */}
+                <div className="p-6 space-y-5 text-left">
+                  {/* Heading */}
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="h-6 w-48 bg-zinc-800/50 rounded" />
-                      <div className="h-4 w-72 bg-zinc-800/30 rounded mt-2" />
+                      <h3 className="text-xl font-bold text-zinc-100">Dashboard</h3>
+                      <p className="text-sm text-zinc-500 mt-0.5">
+                        Monitor your AI features and simulation results
+                      </p>
                     </div>
-                    <div className="h-10 w-32 bg-violet-600/20 rounded-lg border border-violet-500/20" />
+                    <div className="flex items-center gap-2 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 px-3.5 py-2 text-sm font-medium text-white shadow-lg shadow-violet-600/30">
+                      <Sparkles className="h-3.5 w-3.5" />
+                      New Project
+                    </div>
                   </div>
+
+                  {/* Stats row */}
                   <div className="grid grid-cols-5 gap-3">
-                    {[...Array(5)].map((_, i) => (
-                      <div key={i} className="rounded-xl border border-zinc-800/50 bg-zinc-900/30 p-4">
-                        <div className="h-3 w-8 bg-zinc-800/50 rounded mb-2" />
-                        <div className="h-6 w-16 bg-zinc-800/30 rounded" />
+                    {[
+                      { label: "Simulations", value: "247", icon: Play, color: "text-violet-400", bg: "bg-violet-500/10" },
+                      { label: "Latency", value: "1.4s", icon: Zap, color: "text-blue-400", bg: "bg-blue-500/10" },
+                      { label: "Tokens", value: "89.4K", icon: Brain, color: "text-amber-400", bg: "bg-amber-500/10" },
+                      { label: "Cost", value: "$0.18", icon: BarChart3, color: "text-emerald-400", bg: "bg-emerald-500/10" },
+                      { label: "Score", value: "78/100", icon: Target, color: "text-pink-400", bg: "bg-pink-500/10" },
+                    ].map((s) => (
+                      <div
+                        key={s.label}
+                        className="rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-3"
+                      >
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <div className={`rounded-md ${s.bg} p-1`}>
+                            <s.icon className={`h-3 w-3 ${s.color}`} />
+                          </div>
+                          <span className="text-[11px] text-zinc-500">{s.label}</span>
+                        </div>
+                        <p className="text-base font-bold text-zinc-100">{s.value}</p>
                       </div>
                     ))}
                   </div>
+
+                  {/* Project cards */}
                   <div className="grid grid-cols-3 gap-3">
-                    {[78, 92, 65].map((score, i) => (
-                      <div key={i} className="rounded-xl border border-zinc-800/50 bg-zinc-900/30 p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="h-4 w-32 bg-zinc-800/50 rounded" />
-                          <span className={`text-sm font-bold ${score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-yellow-400' : 'text-orange-400'}`}>
-                            {score}/100
-                          </span>
+                    {[
+                      { name: "Support Bot v2", description: "GPT-4o support agent", score: 78, runs: 92 },
+                      { name: "RAG Q&A System", description: "Docs assistant with citations", score: 92, runs: 84 },
+                      { name: "Sales Copilot", description: "Outreach email generator", score: 65, runs: 71 },
+                    ].map((p) => {
+                      const color =
+                        p.score >= 80 ? "emerald" : p.score >= 60 ? "amber" : "orange";
+                      return (
+                        <div
+                          key={p.name}
+                          className="rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4 hover:border-zinc-700 transition-colors"
+                        >
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold text-zinc-100 truncate">
+                                {p.name}
+                              </p>
+                              <p className="text-[11px] text-zinc-500 truncate mt-0.5">
+                                {p.description}
+                              </p>
+                            </div>
+                            <span
+                              className={`text-sm font-bold shrink-0 ml-2 ${
+                                color === "emerald"
+                                  ? "text-emerald-400"
+                                  : color === "amber"
+                                  ? "text-amber-400"
+                                  : "text-orange-400"
+                              }`}
+                            >
+                              {p.score}
+                            </span>
+                          </div>
+                          <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full ${
+                                color === "emerald"
+                                  ? "bg-emerald-500"
+                                  : color === "amber"
+                                  ? "bg-amber-500"
+                                  : "bg-orange-500"
+                              }`}
+                              style={{ width: `${p.score}%` }}
+                            />
+                          </div>
+                          <div className="flex items-center justify-between mt-3 text-[11px] text-zinc-500">
+                            <span>{p.runs} runs</span>
+                            <span className="flex items-center gap-1">
+                              <span
+                                className={`h-1.5 w-1.5 rounded-full ${
+                                  color === "emerald"
+                                    ? "bg-emerald-500"
+                                    : color === "amber"
+                                    ? "bg-amber-500"
+                                    : "bg-orange-500"
+                                }`}
+                              />
+                              {color === "emerald"
+                                ? "Healthy"
+                                : color === "amber"
+                                ? "Watch"
+                                : "At risk"}
+                            </span>
+                          </div>
                         </div>
-                        <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full rounded-full ${score >= 80 ? 'bg-emerald-500' : score >= 60 ? 'bg-yellow-500' : 'bg-orange-500'}`}
-                            style={{ width: `${score}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </div>
