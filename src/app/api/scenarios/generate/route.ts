@@ -41,12 +41,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const scenarioRows = scenarios.map((s) => ({
-      project_id,
-      input_text: s.input_text || s.input || s.text || String(s),
-      type: s.type || "general",
-      persona: s.persona || null,
-    }));
+    const scenarioRows = scenarios.map((s) => {
+      const text =
+        (typeof s.input_text === "string" && s.input_text) ||
+        (typeof s.input === "string" && s.input) ||
+        (typeof s.text === "string" && s.text) ||
+        (typeof s === "string" ? s : JSON.stringify(s));
+      return {
+        project_id,
+        input_text: text,
+        type: s.type || "general",
+        persona: s.persona || null,
+      };
+    });
 
     const { data, error } = await supabase
       .from("scenarios")

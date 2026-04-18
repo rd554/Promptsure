@@ -6,11 +6,20 @@ function getClient() {
   });
 }
 
+export type GeneratedScenario = {
+  input_text?: string;
+  input?: string;
+  text?: string;
+  type?: string;
+  persona?: string;
+  [key: string]: unknown;
+};
+
 export async function generateScenarios(
   featureDescription: string,
   goal: string,
   count: number = 30
-): Promise<{ input_text: string; type: string; persona: string }[]> {
+): Promise<GeneratedScenario[]> {
   const client = getClient();
   const response = await client.chat.completions.create({
     model: "gpt-4o-mini",
